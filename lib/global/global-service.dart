@@ -3,7 +3,6 @@ import 'package:http/http.dart' as http;
 
 class ActivityService {
   static const String apiUrl = 'https://backend.etkinlik.io/api/v2/events';
-  static const String apiKey = '9a1c56a6d8db68eb1da1a928307176d5';
 
   static Future<Map<String, dynamic>> getEvents({
     String categoryIds = '',
