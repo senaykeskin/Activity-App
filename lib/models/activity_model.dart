@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class EventItem {
   final int? id;
   final String? name;
@@ -36,7 +34,7 @@ class EventItem {
   factory EventItem.fromJson(Map<String, dynamic> json) {
     return EventItem(
       id: json['id'],
-      name: json['name']?.toString(),  // null kontrolü ve dönüşüm
+      name: json['name']?.toString(),
       slug: json['slug']?.toString(),
       url: json['url']?.toString(),
       content: json['content']?.toString(),
@@ -93,6 +91,8 @@ class Venue {
   final double? lat;
   final double? lng;
   final String? address;
+  final District? district;
+  final City? city;
 
   Venue({
     this.id,
@@ -102,6 +102,8 @@ class Venue {
     this.lat,
     this.lng,
     this.address,
+    this.district,
+    this.city,
   });
 
   factory Venue.fromJson(Map<String, dynamic> json) {
@@ -113,9 +115,40 @@ class Venue {
       lat: json['lat'] != null ? double.tryParse(json['lat'].toString()) : null,
       lng: json['lng'] != null ? double.tryParse(json['lng'].toString()) : null,
       address: json['address']?.toString(),
+      district: json['district'] != null ? District.fromJson(json['district']) : null,
+      city: json['city'] != null ? City.fromJson(json['city']) : null,
     );
   }
 }
+
+class City {
+  final int? id;
+  final String? name;
+  final String? slug;
+
+  City({this.id, this.name, this.slug});
+
+  factory City.fromJson(Map<String, dynamic> json) {
+    return City(
+      id: json['id'],
+      name: json['name']?.toString(),
+      slug: json['slug']?.toString(),
+    );
+  }
+}
+
+class District {
+  final String? name;
+
+  District({this.name});
+
+  factory District.fromJson(Map<String, dynamic> json) {
+    return District(
+      name: json['name']?.toString(),
+    );
+  }
+}
+
 
 class Tag {
   final int? id;

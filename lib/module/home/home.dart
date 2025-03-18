@@ -21,19 +21,20 @@ class _HomeState extends State<Home> {
             Center(child: Text("Etkinlikler İçeriği")),
           ],
         ),
-        bottomNavigationBar: TabBar(
-          indicatorColor: Colors.transparent,
-          labelColor: Colors.purple,
-          unselectedLabelColor: Colors.grey,
-          indicatorSize: TabBarIndicatorSize.label,
-          tabs: [
-            Tab(icon: Icon(Icons.home), text: "Ana Sayfa"),
-            Tab(icon: Icon(Icons.favorite_outlined), text: "Favoriler"),
-          ],
+        bottomNavigationBar: Container(
+          color: Colors.blueGrey[100],
+          child: TabBar(
+            indicatorColor: Colors.transparent,
+            labelColor: Colors.purple,
+            unselectedLabelColor: Colors.white,
+            indicatorSize: TabBarIndicatorSize.label,
+            tabs: [
+              Tab(icon: Icon(Icons.home), text: "Ana Sayfa"),
+              Tab(icon: Icon(Icons.favorite_outlined), text: "Favoriler"),
+            ],
+          ),
         ),
       ),
     );
-
-
   }
 }
