@@ -11,6 +11,7 @@
 .svn/
 .swiftpm/
 migrate_working_dir/
+global/api-key.dart
 
 # IntelliJ related
 *.iml
