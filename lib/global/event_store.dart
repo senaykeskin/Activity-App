@@ -8,10 +8,13 @@ class EventStore {
 
   EventStore._internal();
 
-  final BehaviorSubject<List<EventItem>> _visibleEventsController = BehaviorSubject<List<EventItem>>.seeded([]);
-  Stream<List<EventItem>> get eventListStream => _visibleEventsController.stream;
+  final BehaviorSubject<List<EventItem>> _visibleEventsController =
+      BehaviorSubject<List<EventItem>>.seeded([]);
+  Stream<List<EventItem>> get eventListStream =>
+      _visibleEventsController.stream;
 
-  final BehaviorSubject<bool> _isLoadingController = BehaviorSubject<bool>.seeded(false);
+  final BehaviorSubject<bool> _isLoadingController =
+      BehaviorSubject<bool>.seeded(false);
   Stream<bool> get isLoadingStream => _isLoadingController.stream;
   bool get isLoading => _isLoadingController.value;
 
@@ -32,7 +35,6 @@ class EventStore {
       // İlk 20 öğeyi göster
       _visibleEvents = allEvents.take(20).toList();
       _visibleEventsController.add(List.from(_visibleEvents));
-
     } catch (e) {
       print("Error fetching events: $e");
     } finally {

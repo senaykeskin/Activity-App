@@ -101,7 +101,8 @@ Container eventButtonContainer(BuildContext context, EventItem event) {
                     Container(
                       padding: all8,
                       decoration: BoxDecoration(
-                          color: Colors.deepPurple, borderRadius: border15,
+                        color: Colors.deepPurple,
+                        borderRadius: border15,
                       ),
                       child: Text(
                         DateFormat("d MMMM", "tr_TR")

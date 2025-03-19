@@ -34,12 +34,12 @@ class _ActivityHomeScreenState extends State<ActivityHomeScreen> {
 
   void _onScroll() {
     if (_scrollController.position.pixels ==
-        _scrollController.position.maxScrollExtent &&
+            _scrollController.position.maxScrollExtent &&
         !_eventStore.isLoading) {
       _eventStore.loadMoreEvents();
     }
   }
-  
+
   @override
   void dispose() {
     _scrollController.dispose();
@@ -88,10 +88,13 @@ class _ActivityHomeScreenState extends State<ActivityHomeScreen> {
                           if (index == events.length && isLoading) {
                             return Center(
                               child: Padding(
-                                padding: EdgeInsets.symmetric(vertical: W(context) * 0.5),
+                                padding: EdgeInsets.symmetric(
+                                    vertical: W(context) * 0.5),
                                 child: Platform.isIOS
-                                    ? const CupertinoActivityIndicator(radius: 20)
-                                    : const CircularProgressIndicator(color: Colors.deepPurple),
+                                    ? const CupertinoActivityIndicator(
+                                        radius: 20)
+                                    : const CircularProgressIndicator(
+                                        color: Colors.deepPurple),
                               ),
                             );
                           }

@@ -43,10 +43,15 @@ class EventItem {
       isFree: json['is_free'],
       posterUrl: json['poster_url']?.toString(),
       ticketUrl: json['ticket_url']?.toString(),
-      format: json['format'] != null ? EventFormat.fromJson(json['format']) : null,
-      category: json['category'] != null ? EventCategory.fromJson(json['category']) : null,
+      format:
+          json['format'] != null ? EventFormat.fromJson(json['format']) : null,
+      category: json['category'] != null
+          ? EventCategory.fromJson(json['category'])
+          : null,
       venue: json['venue'] != null ? Venue.fromJson(json['venue']) : null,
-      tags: json['tags'] != null ? (json['tags'] as List).map((tag) => Tag.fromJson(tag)).toList() : null,
+      tags: json['tags'] != null
+          ? (json['tags'] as List).map((tag) => Tag.fromJson(tag)).toList()
+          : null,
     );
   }
 }
@@ -115,7 +120,8 @@ class Venue {
       lat: json['lat'] != null ? double.tryParse(json['lat'].toString()) : null,
       lng: json['lng'] != null ? double.tryParse(json['lng'].toString()) : null,
       address: json['address']?.toString(),
-      district: json['district'] != null ? District.fromJson(json['district']) : null,
+      district:
+          json['district'] != null ? District.fromJson(json['district']) : null,
       city: json['city'] != null ? City.fromJson(json['city']) : null,
     );
   }
@@ -148,7 +154,6 @@ class District {
     );
   }
 }
-
 
 class Tag {
   final int? id;

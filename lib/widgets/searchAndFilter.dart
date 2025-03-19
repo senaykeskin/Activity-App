@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:page_transition/page_transition.dart';
 import '../global/event_store.dart';
 import '../global/global-variables.dart';
+import '../module/filter_screen/filter_screen.dart';
 
 class SearchAndFilter extends StatefulWidget {
   const SearchAndFilter({super.key});
@@ -16,7 +18,8 @@ class _SearchAndFilterState extends State<SearchAndFilter> {
   void _filterEvents(String query) {
     if (query.isNotEmpty) {
       final filtered = eventStore.allEvents
-          .where((event) => event.name!.toLowerCase().contains(query.toLowerCase()))
+          .where((event) =>
+              event.name!.toLowerCase().contains(query.toLowerCase()))
           .toList();
       eventStore.updateFilteredEvents(filtered);
     } else {
@@ -70,6 +73,13 @@ class _SearchAndFilterState extends State<SearchAndFilter> {
             elevation: 0,
           ),
           onPressed: () {
+            Navigator.push(
+              context,
+              PageTransition(
+                  type: PageTransitionType.bottomToTop,
+                  childBuilder: (context) => FilterScreen(),
+                  duration: Duration(milliseconds: 300)),
+            );
           },
           child: FaIcon(FontAwesomeIcons.sliders, color: Colors.black),
         ),
