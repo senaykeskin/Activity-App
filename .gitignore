@@ -12,12 +12,14 @@
 .swiftpm/
 migrate_working_dir/
 global/api-key.dart
+lib/global/api-key.dart
 
 # IntelliJ related
 *.iml
 *.ipr
 *.iws
 .idea/
+**/api-key.dart
 
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line
