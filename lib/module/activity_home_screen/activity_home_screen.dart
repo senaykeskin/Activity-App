@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../global/event_store.dart';
+import '../../stores/event_store.dart';
 import '../../global/global-variables.dart';
 import '../../models/activity_model.dart';
 import '../../widgets/searchAndFilter.dart';
@@ -66,7 +66,7 @@ class _ActivityHomeScreenState extends State<ActivityHomeScreen> {
             const SearchAndFilter(),
             const SizedBox(height: 30),
             const Text(
-              "Yaklaşan Etkinlikler",
+              "Etkinlikler",
               style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,

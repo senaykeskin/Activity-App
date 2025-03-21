@@ -1,6 +1,8 @@
+import 'dart:developer';
+
 import 'package:rxdart/rxdart.dart';
 import '../models/activity_model.dart';
-import 'global-service.dart';
+import '../global/global-service.dart';
 
 class EventStore {
   static final EventStore _instance = EventStore._internal();
@@ -10,11 +12,13 @@ class EventStore {
 
   final BehaviorSubject<List<EventItem>> _visibleEventsController =
       BehaviorSubject<List<EventItem>>.seeded([]);
+
   Stream<List<EventItem>> get eventListStream =>
       _visibleEventsController.stream;
 
   final BehaviorSubject<bool> _isLoadingController =
       BehaviorSubject<bool>.seeded(false);
+
   Stream<bool> get isLoadingStream => _isLoadingController.stream;
   bool get isLoading => _isLoadingController.value;
 
@@ -26,17 +30,16 @@ class EventStore {
     try {
       _isLoadingController.add(true);
 
-      // Servisten Tüm Etkinlikleri Al
       final response = await ActivityService.getEvents(skip: 0, take: 0);
 
       allEvents = response;
       _filteredEvents = allEvents;
 
-      // İlk 20 öğeyi göster
       _visibleEvents = allEvents.take(20).toList();
       _visibleEventsController.add(List.from(_visibleEvents));
+
     } catch (e) {
-      print("Error fetching events: $e");
+      inspect(e);
     } finally {
       _isLoadingController.add(false);
     }
@@ -54,6 +57,39 @@ class EventStore {
     }
   }
 
+  void filterEventsByCity(String city) {
+    _filteredEvents = allEvents.where((event) => event.venue?.city?.name == city).toList();
+    _visibleEvents = _filteredEvents.take(20).toList();
+    _visibleEventsController.add(List.from(_visibleEvents));
+  }
+
+  void filterEventsByCategory(String category) {
+    _filteredEvents = allEvents.where((event) => event.category?.name == category).toList();
+    _visibleEvents = _filteredEvents.take(20).toList();
+    _visibleEventsController.add(List.from(_visibleEvents));
+  }
+
+  void filterEventsByDate(DateTime selectedDate) {
+    _filteredEvents = allEvents
+        .where((event) => event.start?.isSameDay(selectedDate) ?? false)
+        .toList();
+
+    _visibleEvents = _filteredEvents.take(20).toList();
+    _visibleEventsController.add(List.from(_visibleEvents));
+  }
+
+  void filterEventsByFreeStatus(bool isFree) {
+    if (isFree) {
+      _filteredEvents = allEvents.where((event) => event.isFree ?? false).toList();
+    } else {
+      _filteredEvents = List.from(allEvents);
+    }
+
+    _visibleEvents = _filteredEvents.take(20).toList();
+    _visibleEventsController.add(List.from(_visibleEvents));
+
+  }
+  
   void updateFilteredEvents(List<EventItem> filteredEvents) {
     _filteredEvents = filteredEvents;
     _visibleEvents = _filteredEvents.take(20).toList();
@@ -73,3 +109,11 @@ class EventStore {
 }
 
 final eventStore = EventStore();
+
+extension DateTimeComparison on DateTime {
+  bool isSameDay(DateTime other) {
+    return year == other.year &&
+        month == other.month &&
+        day == other.day;
+  }
+}

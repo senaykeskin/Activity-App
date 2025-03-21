@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:page_transition/page_transition.dart';
-import '../global/event_store.dart';
+import '../stores/event_store.dart';
 import '../global/global-variables.dart';
 import '../module/filter_screen/filter_screen.dart';
 
