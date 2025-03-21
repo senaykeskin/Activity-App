@@ -13,6 +13,7 @@
 migrate_working_dir/
 global/api-key.dart
 lib/global/api-key.dart
+lib/global/apiKey.dart
 
 # IntelliJ related
 *.iml
