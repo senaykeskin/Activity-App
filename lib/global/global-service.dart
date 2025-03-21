@@ -6,7 +6,8 @@ import 'api-key.dart';
 class ActivityService {
   static const String apiUrl = 'https://backend.etkinlik.io/api/v2/events';
 
-  static Future<List<EventItem>> getEvents({required int skip, required int take}) async {
+  static Future<List<EventItem>> getEvents(
+      {required int skip, required int take}) async {
     try {
       final Uri uri = Uri.parse('$apiUrl?skip=$skip&take=$take');
       final response = await http.get(
@@ -22,7 +23,8 @@ class ActivityService {
         List<dynamic> items = data['items'];
         return items.map((item) => EventItem.fromJson(item)).toList();
       } else {
-        throw Exception('API Hatası: ${response.statusCode} - ${response.body}');
+        throw Exception(
+            'API Hatası: ${response.statusCode} - ${response.body}');
       }
     } catch (e) {
       throw Exception('Bağlantı Hatası: $e');
