@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:page_transition/page_transition.dart';
 import '../../global/global-variables.dart';
 import '../../models/activity_model.dart';
+import '../detail_screen/detail_screen.dart';
 
 Container eventButtonContainer(BuildContext context, EventItem event) {
   return Container(
@@ -16,7 +18,15 @@ Container eventButtonContainer(BuildContext context, EventItem event) {
           padding: EdgeInsets.zero,
           elevation: 2),
       onPressed: () {
-        // Todo: navigasyon eklenecek
+        Navigator.push(
+          context,
+          PageTransition(
+            type: PageTransitionType.rightToLeft,
+            duration: Duration(milliseconds: 400),
+            curve: Curves.easeInOut,
+            child: DetailScreen(eventId: event.id!.toInt()),
+          ),
+        );
       },
       child: Padding(
         padding: EdgeInsets.all(10),

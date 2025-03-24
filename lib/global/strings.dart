@@ -12,4 +12,7 @@ class AppStrings {
       "Yapılan filtrelemeye göre etkinlik bulunamadı.";
   static const String favorites = "Favoriler";
   static const String search = "Arama yapın...";
+  static const String eventDetail = "Etkinlik Detayları";
+  static const String description = "Açıklama";
+  static const String buyTicket = "Bilet Satın Al";
 }
