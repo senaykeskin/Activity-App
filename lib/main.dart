@@ -1,5 +1,3 @@
-import 'package:activity_app/global/global-service.dart';
-import 'package:activity_app/module/filter_screen/category_service.dart';
 import 'package:activity_app/stores/category_store.dart';
 import 'package:flutter/material.dart';
 import 'package:activity_app/module/home/home.dart';

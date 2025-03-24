@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/activity_model.dart';
-import 'api-key.dart';
+import 'apiKey.dart';
 
 class ActivityService {
   static const String apiUrl = 'https://backend.etkinlik.io/api/v2/events';

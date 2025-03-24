@@ -18,7 +18,8 @@ class ProvinceService {
 
         return items;
       } else {
-        throw Exception('API Hatası: ${response.statusCode} - ${response.body}');
+        throw Exception(
+            'API Hatası: ${response.statusCode} - ${response.body}');
       }
     } catch (e) {
       inspect(e);

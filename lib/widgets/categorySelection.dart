@@ -35,14 +35,12 @@ class CategorySelection extends StatelessWidget {
                           title: Text(categoryName!),
                           onTap: () {
                             onCategorySelected(categoryName);
-                            categoryStore.setSelectedCity(categoryName);
+                            categoryStore.setSelectedCategory(categoryName);
                           },
                         );
                       });
                 }
-
-                return const Center(child: Text("Seçilen kategoride bir etkinlik bulunamadı"));
-
+                return const Center();
               },
             ),
           ),

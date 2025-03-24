@@ -5,8 +5,10 @@ import '../module/filter_screen/provinces_service.dart';
 import 'event_store.dart';
 
 class ProvinceStore {
-  final BehaviorSubject<List<ProvinceModel>?> provinceList = BehaviorSubject<List<ProvinceModel>?>.seeded([]);
-  final BehaviorSubject<String?> selectedCity = BehaviorSubject<String?>.seeded(null);
+  final BehaviorSubject<List<ProvinceModel>?> provinceList =
+      BehaviorSubject<List<ProvinceModel>?>.seeded([]);
+  final BehaviorSubject<String?> selectedCity =
+      BehaviorSubject<String?>.seeded(null);
 
   Stream<List<ProvinceModel>?> get provinceListStream => provinceList.stream;
   Stream<String?> get selectedCityStream => selectedCity.stream;
@@ -27,7 +29,7 @@ class ProvinceStore {
 
   void setSelectedCity(String city) {
     selectedCity.add(city);
-    filterEventsByCity(city);
+    eventStore.filterEventsByCity(city);
   }
 
   void filterEventsByCity(String city) {

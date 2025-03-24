@@ -9,10 +9,10 @@ class FilterItemsContainer extends StatelessWidget {
 
   const FilterItemsContainer(
       {super.key,
-        required this.text,
-        required this.widget,
-        this.onTap,
-        this.subtext});
+      required this.text,
+      required this.widget,
+      this.onTap,
+      this.subtext});
 
   @override
   Widget build(BuildContext context) {
@@ -36,19 +36,21 @@ class FilterItemsContainer extends StatelessWidget {
             children: [
               subtext != null && subtext!.isNotEmpty
                   ? Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(text,
-                      style:
-                      TextStyle(fontSize: 16, color: Colors.black)),
-                  Text(subtext ?? "",
-                    style: TextStyle(fontSize: 11, color: Colors.deepOrange),
-                  ),
-                ],
-              )
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(text,
+                            style:
+                                TextStyle(fontSize: 16, color: Colors.black)),
+                        Text(
+                          subtext ?? "",
+                          style:
+                              TextStyle(fontSize: 11, color: Colors.deepOrange),
+                        ),
+                      ],
+                    )
                   : Text(text,
-                  style: TextStyle(fontSize: 16, color: Colors.black)),
+                      style: TextStyle(fontSize: 16, color: Colors.black)),
               widget,
             ],
           ),

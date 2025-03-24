@@ -42,7 +42,7 @@ class CitySelectionSheet extends StatelessWidget {
                   );
                 }
 
-                return const Center(child: Text("Seçilen şehirde bir etkinlik bulunamadı"));
+                return const Center();
               },
             ),
           ),

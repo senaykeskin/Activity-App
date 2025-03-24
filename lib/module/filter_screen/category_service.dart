@@ -1,8 +1,7 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:activity_app/models/category_model.dart';
 import 'package:http/http.dart' as http;
-import '../../global/api-key.dart';
+import '../../global/apiKey.dart';
 
 class CategoryService {
   static const String apiUrl = 'https://backend.etkinlik.io/api/v2/categories';

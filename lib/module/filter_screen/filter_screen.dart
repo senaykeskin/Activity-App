@@ -1,11 +1,9 @@
-import 'dart:developer';
-
+import 'package:activity_app/global/strings.dart';
 import 'package:activity_app/stores/category_store.dart';
 import 'package:activity_app/stores/province_store.dart';
 import 'package:activity_app/widgets/categorySelection.dart';
 import 'package:activity_app/widgets/citySelection.dart';
 import 'package:flutter/material.dart';
-import 'package:rxdart/rxdart.dart';
 import '../../stores/event_store.dart';
 import '../../global/global-variables.dart';
 import '../../widgets/filterItems.dart';
@@ -18,15 +16,6 @@ class FilterScreen extends StatefulWidget {
 }
 
 class _FilterScreenState extends State<FilterScreen> {
-  late final BehaviorSubject<DateTime?> selectedDate =
-      BehaviorSubject<DateTime?>();
-
-  late final BehaviorSubject<bool> isFreeController =
-      BehaviorSubject<bool>.seeded(false);
-
-  final BehaviorSubject<String?> selectedProvince = BehaviorSubject<String?>();
-  final BehaviorSubject<String?> selectedCategory = BehaviorSubject<String?>();
-
   @override
   void initState() {
     super.initState();
@@ -34,9 +23,6 @@ class _FilterScreenState extends State<FilterScreen> {
 
   @override
   void dispose() {
-    selectedDate.close();
-    isFreeController.close();
-    selectedProvince.close();
     super.dispose();
   }
 
@@ -54,7 +40,7 @@ class _FilterScreenState extends State<FilterScreen> {
     );
 
     if (pickedDate != null) {
-      selectedDate.add(pickedDate);
+      eventStore.setSelectedDate(pickedDate);
       eventStore.filterEventsByDate(pickedDate);
     } else {
       eventStore.resetEvents();
@@ -72,7 +58,8 @@ class _FilterScreenState extends State<FilterScreen> {
       builder: (context) {
         return CitySelectionSheet(
           onCitySelected: (String city) {
-            selectedProvince.add(city);
+            provinceStore.selectedCity.add(city);
+            provinceStore.setSelectedCity(city);
             Navigator.pop(context);
           },
         );
@@ -82,27 +69,30 @@ class _FilterScreenState extends State<FilterScreen> {
 
   void _showCategorySelectionSheet(BuildContext context) {
     showModalBottomSheet(
-        showDragHandle: true,
-        backgroundColor: Colors.white,
-        context: context,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
-        ),
-        builder: (context) {
-          return CategorySelection(
-            onCategorySelected: (String category) {
-              selectedCategory.add(category);
-              Navigator.pop(context);
-            },
-          );
-        });
+      showDragHandle: true,
+      backgroundColor: Colors.white,
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
+      ),
+      builder: (context) {
+        return CategorySelection(
+          onCategorySelected: (String category) {
+            categoryStore.selectedCategory.add(category);
+            categoryStore.setSelectedCategory(category);
+            Navigator.pop(context);
+          },
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Filtrele", style: TextStyle(color: Colors.white)),
+        title: const Text(AppStrings.filter,
+            style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.deepPurple,
         iconTheme: const IconThemeData(color: Colors.white),
         leading: IconButton(
@@ -122,15 +112,15 @@ class _FilterScreenState extends State<FilterScreen> {
                 child: Column(
                   children: [
                     FilterItemsContainer(
-                      text: "Katılım Ücretsiz",
+                      text: AppStrings.isFree,
                       widget: StreamBuilder<bool>(
-                        stream: isFreeController.stream,
-                        initialData: isFreeController.value,
+                        stream: eventStore.isFreeControllerStream,
                         builder: (context, snapshot) {
+                          bool isFree = snapshot.data ?? eventStore.isFree;
                           return Switch(
-                            value: snapshot.data ?? false,
+                            value: isFree,
                             onChanged: (value) {
-                              isFreeController.add(value);
+                              eventStore.setIsFree(value);
                               eventStore.filterEventsByFreeStatus(value);
                             },
                           );
@@ -138,7 +128,7 @@ class _FilterScreenState extends State<FilterScreen> {
                       ),
                     ),
                     StreamBuilder<DateTime?>(
-                      stream: selectedDate.stream,
+                      stream: eventStore.selectedDateStream,
                       builder: (context, snapshot) {
                         String dateText = "";
                         if (snapshot.hasData && snapshot.data != null) {
@@ -146,7 +136,7 @@ class _FilterScreenState extends State<FilterScreen> {
                               "${snapshot.data!.day}/${snapshot.data!.month}/${snapshot.data!.year}";
                         }
                         return FilterItemsContainer(
-                          text: "Tarih seç",
+                          text: AppStrings.chooseDate,
                           subtext: dateText,
                           widget: Icon(
                             Icons.chevron_right_outlined,
@@ -164,7 +154,7 @@ class _FilterScreenState extends State<FilterScreen> {
                           cityText = snapshot.data.toString();
                         }
                         return FilterItemsContainer(
-                          text: "Şehir Seç",
+                          text: AppStrings.chooseCity,
                           subtext: cityText,
                           widget: Icon(
                             Icons.chevron_right_outlined,
@@ -182,7 +172,7 @@ class _FilterScreenState extends State<FilterScreen> {
                             categoryText = snapshot.data.toString();
                           }
                           return FilterItemsContainer(
-                            text: "Kategori Seç",
+                            text: AppStrings.chooseCategory,
                             subtext: categoryText,
                             widget: Icon(
                               Icons.chevron_right_outlined,
@@ -198,20 +188,50 @@ class _FilterScreenState extends State<FilterScreen> {
             Container(
               width: double.infinity,
               margin: horizontal10 + vertical15,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.deepPurple,
-                  shape: RoundedRectangleBorder(borderRadius: border10),
-                  fixedSize: Size(W(context), 50),
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text(
-                  "Seçili Filtreleri Uygula",
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
-                ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.deepPurple,
+                      shape: RoundedRectangleBorder(borderRadius: border10),
+                      fixedSize: Size(W(context) / 2.2, 60),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text(
+                      AppStrings.apply,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 18),
+                    ),
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: border10,
+                        side: BorderSide(
+                          color: Colors.deepPurple,
+                          width: 2,
+                        ),
+                      ),
+                      fixedSize: Size(W(context) / 2.2, 60),
+                    ),
+                    onPressed: () {
+                      eventStore.resetEvents();
+                    },
+                    child: const Text(
+                      AppStrings.clean,
+                      style: TextStyle(
+                          color: Colors.deepPurple,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 18),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

@@ -1,8 +1,6 @@
-import 'dart:developer';
 import 'package:activity_app/models/category_model.dart';
 import 'package:activity_app/module/filter_screen/category_service.dart';
 import 'package:rxdart/rxdart.dart';
-
 import 'event_store.dart';
 
 class CategoryStore {
@@ -19,20 +17,16 @@ class CategoryStore {
   Future<void> loadCategories() async {
     try {
       final categories = await CategoryService.getCategories();
-      if (categories.isEmpty) {
-        inspect("Kategori listesi boş döndü!");
-      }
+      if (categories.isEmpty) {}
       categoryList.add(categories);
-      inspect("Kategoriler başarıyla yüklendi: ${categories.length} adet");
     } catch (e) {
-      inspect("Kategoriler yüklenirken hata oluştu: $e");
       categoryList.sink.add([]);
     }
   }
 
-  void setSelectedCity(String category) {
+  void setSelectedCategory(String category) {
     selectedCategory.add(category);
-    filterEventsByCategory(category);
+    eventStore.filterEventsByCategory(category);
   }
 
   void filterEventsByCategory(String category) {

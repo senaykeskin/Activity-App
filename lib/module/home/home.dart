@@ -1,3 +1,4 @@
+import 'package:activity_app/global/strings.dart';
 import 'package:activity_app/module/activity_home_screen/activity_home_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -29,8 +30,10 @@ class _HomeState extends State<Home> {
             unselectedLabelColor: Colors.white,
             indicatorSize: TabBarIndicatorSize.label,
             tabs: [
-              Tab(icon: Icon(Icons.home), text: "Ana Sayfa"),
-              Tab(icon: Icon(Icons.favorite_outlined), text: "Favoriler"),
+              Tab(icon: Icon(Icons.home), text: AppStrings.homePage),
+              Tab(
+                  icon: Icon(Icons.favorite_outlined),
+                  text: AppStrings.favorites),
             ],
           ),
         ),

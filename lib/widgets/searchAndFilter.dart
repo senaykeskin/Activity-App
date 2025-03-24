@@ -1,3 +1,4 @@
+import 'package:activity_app/global/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:page_transition/page_transition.dart';
@@ -53,7 +54,7 @@ class _SearchAndFilterState extends State<SearchAndFilter> {
               border: InputBorder.none,
               icon: Icon(Icons.search_outlined),
               iconColor: Colors.grey.shade400,
-              hintText: "Arama yapın...",
+              hintText: AppStrings.search,
               hintStyle: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
