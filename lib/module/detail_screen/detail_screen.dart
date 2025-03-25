@@ -1,3 +1,4 @@
+
 import 'package:activity_app/global/global-variables.dart';
 import 'package:activity_app/global/strings.dart';
 import 'package:activity_app/models/activity_model.dart';
@@ -29,8 +30,8 @@ class _DetailScreenState extends State<DetailScreen> with LaunchMixin {
   }
 
   Future<void> _toggleFavorite() async {
-    final currentFavorites = favoritesStore.favoriteList;
-    if (await currentFavorites.contains(eventItem!.id)) {
+    final currentFavorites = favoritesStore.favoriteSubject.value;
+    if (currentFavorites.contains(eventItem!.id)) {
       await favoritesStore.removeFavorite(eventItem!.id!.toInt());
     } else {
       await favoritesStore.addFavorite(eventItem!.id!.toInt());
@@ -99,7 +100,7 @@ class _DetailScreenState extends State<DetailScreen> with LaunchMixin {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton(
-                  onPressed: _toggleFavorite,
+                  onPressed: () => _toggleFavorite(),
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.white,
                     fixedSize: Size(W(context) * 0.17, W(context) * 0.17),
@@ -113,9 +114,6 @@ class _DetailScreenState extends State<DetailScreen> with LaunchMixin {
                         borderRadius: border50),
                     backgroundColor: Colors.white,
                     shadowColor: Colors.transparent,
-                  ).copyWith(
-                    overlayColor: WidgetStateProperty.all(Colors.transparent),
-                    splashFactory: NoSplash.splashFactory,
                   ),
                   child: StreamBuilder<List<int>>(
                     stream: favoritesStore.favoriteList,

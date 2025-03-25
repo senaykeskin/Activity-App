@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:activity_app/stores/category_store.dart';
 import 'package:activity_app/stores/province_store.dart';
 import 'package:rxdart/rxdart.dart';
@@ -54,8 +53,6 @@ class EventStore {
 
       _visibleEvents = allEvents.take(20).toList();
       _visibleEventsController.add(List.from(_visibleEvents));
-    } catch (e) {
-      inspect(e);
     } finally {
       _isLoadingController.add(false);
     }

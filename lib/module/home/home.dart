@@ -1,5 +1,6 @@
 import 'package:activity_app/global/strings.dart';
 import 'package:activity_app/module/activity_home_screen/activity_home_screen.dart';
+import 'package:activity_app/module/favorites_screen/favorites_screen.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -17,10 +18,7 @@ class _HomeState extends State<Home> {
       child: Scaffold(
         body: TabBarView(
           physics: const NeverScrollableScrollPhysics(),
-          children: [
-            ActivityHomeScreen(),
-            Center(child: Text("Etkinlikler İçeriği")),
-          ],
+          children: [ActivityHomeScreen(), FavoritesScreen()],
         ),
         bottomNavigationBar: Container(
           color: Colors.blueGrey[100],

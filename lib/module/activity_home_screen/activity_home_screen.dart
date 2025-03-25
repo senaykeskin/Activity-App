@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:activity_app/global/strings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +32,6 @@ class _ActivityHomeScreenState extends State<ActivityHomeScreen>
     _eventStore = eventStore;
     _isLoadingStream = _eventStore.isLoadingStream;
     _eventListStream = _eventStore.eventListStream;
-    _eventStore.fetchAllEvents();
     _scrollController.addListener(_onScroll);
     _controller =
         AnimationController(vsync: this, duration: Duration(seconds: 2))
@@ -68,7 +66,7 @@ class _ActivityHomeScreenState extends State<ActivityHomeScreen>
         ),
       ),
       body: Padding(
-        padding: all10,
+        padding: horizontal10,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
