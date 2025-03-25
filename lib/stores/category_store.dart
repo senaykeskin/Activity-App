@@ -7,10 +7,10 @@ class CategoryStore {
   final BehaviorSubject<List<CategoryModel>?> categoryList =
       BehaviorSubject<List<CategoryModel>?>.seeded([]);
 
+  Stream<List<CategoryModel>?> get categoryListStream => categoryList.stream;
+
   final BehaviorSubject<String?> selectedCategory =
       BehaviorSubject<String?>.seeded(null);
-
-  Stream<List<CategoryModel>?> get categoryListStream => categoryList.stream;
 
   Stream<String?> get selectedCategoryStream => selectedCategory.stream;
 
