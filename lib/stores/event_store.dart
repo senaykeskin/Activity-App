@@ -139,6 +139,8 @@ class EventStore {
   void resetEvents() {
     provinceStore.selectedCity.add("");
     categoryStore.selectedCategory.add("");
+    selectedCity = "";
+    selectedCategory = null;
     _selectedDate.add(null);
     setIsFree(false);
     _filteredEvents = allEvents;

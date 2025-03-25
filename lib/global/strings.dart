@@ -15,4 +15,7 @@ class AppStrings {
   static const String eventDetail = "Etkinlik Detayları";
   static const String description = "Açıklama";
   static const String buyTicket = "Bilet Satın Al";
+  static const String free = "Ücretsiz";
+  static const String notFree = "Ücretli";
+  static const String unknown = "Bilinmiyor";
 }

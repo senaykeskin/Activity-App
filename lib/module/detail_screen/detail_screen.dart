@@ -3,9 +3,9 @@ import 'package:activity_app/global/strings.dart';
 import 'package:activity_app/models/activity_model.dart';
 import 'package:activity_app/module/detail_screen/launch_mixin.dart';
 import 'package:activity_app/stores/event_store.dart';
+import 'package:activity_app/stores/favorites_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'methods.dart';
 
 class DetailScreen extends StatefulWidget {
@@ -19,8 +19,6 @@ class DetailScreen extends StatefulWidget {
 
 class _DetailScreenState extends State<DetailScreen> with LaunchMixin {
   late final EventItem? eventItem;
-  late IconData icon = Icons.favorite_outline_outlined;
-  late bool filledIcon = false;
 
   @override
   void initState() {
@@ -30,19 +28,29 @@ class _DetailScreenState extends State<DetailScreen> with LaunchMixin {
     );
   }
 
+  Future<void> _toggleFavorite() async {
+    final currentFavorites = favoritesStore.favoriteList;
+    if (await currentFavorites.contains(eventItem!.id)) {
+      await favoritesStore.removeFavorite(eventItem!.id!.toInt());
+    } else {
+      await favoritesStore.addFavorite(eventItem!.id!.toInt());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Text(AppStrings.eventDetail,
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400)),
+        title: Text(
+          AppStrings.eventDetail,
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+        ),
         centerTitle: true,
       ),
       body: Column(
         children: [
-          // Scrollable content
           Expanded(
             child: SingleChildScrollView(
               child: Padding(
@@ -51,8 +59,13 @@ class _DetailScreenState extends State<DetailScreen> with LaunchMixin {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ClipRRect(
-                        borderRadius: border15,
-                        child: Image.network(eventItem!.posterUrl.toString())),
+                      borderRadius: border15,
+                      child: Image.network(
+                        eventItem!.posterUrl.toString(),
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                     Padding(
                       padding: top30,
                       child: detailHeader(context, eventItem!),
@@ -86,41 +99,53 @@ class _DetailScreenState extends State<DetailScreen> with LaunchMixin {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton(
-                  onPressed: () {
-                    // save the local
-                    icon = filledIcon ? Icons.favorite_outline : Icons.favorite;
-                    setState(() {
-                      filledIcon = !filledIcon;
-                    });
-                  },
+                  onPressed: _toggleFavorite,
                   style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      fixedSize: Size(W(context) * 0.17, W(context) * 0.17),
-                      padding: zero,
-                      elevation: 0,
-                      backgroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                          side: BorderSide(
-                            color: Colors.deepPurple,
-                            width: 1,
-                          ),
-                          borderRadius: border50)),
-                  child: Icon(icon, color: Colors.red, size: 35),
+                    foregroundColor: Colors.white,
+                    fixedSize: Size(W(context) * 0.17, W(context) * 0.17),
+                    padding: EdgeInsets.zero,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                          color: Colors.deepPurple,
+                          width: 1,
+                        ),
+                        borderRadius: border50),
+                    backgroundColor: Colors.white,
+                    shadowColor: Colors.transparent,
+                  ).copyWith(
+                    overlayColor: WidgetStateProperty.all(Colors.transparent),
+                    splashFactory: NoSplash.splashFactory,
+                  ),
+                  child: StreamBuilder<List<int>>(
+                    stream: favoritesStore.favoriteList,
+                    builder: (context, snapshot) {
+                      final favorites = snapshot.data ?? [];
+                      final isFavorite = favorites.contains(eventItem!.id);
+                      return Icon(
+                        isFavorite ? Icons.favorite : Icons.favorite_outline,
+                        color: isFavorite ? Colors.red : Colors.grey,
+                        size: 35,
+                      );
+                    },
+                  ),
                 ),
                 ElevatedButton(
                   onPressed: () {
                     launchURL(eventItem!.ticketUrl.toString());
                   },
                   style: ElevatedButton.styleFrom(
-                      fixedSize: Size(W(context) * 0.7, W(context) * 0.17),
-                      elevation: 0,
-                      backgroundColor: Colors.deepPurple),
+                    fixedSize: Size(W(context) * 0.7, W(context) * 0.17),
+                    elevation: 0,
+                    backgroundColor: Colors.deepPurple,
+                  ),
                   child: Text(
                     AppStrings.buyTicket,
                     style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ],

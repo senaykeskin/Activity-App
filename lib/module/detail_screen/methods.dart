@@ -1,8 +1,7 @@
+import 'package:activity_app/global/strings.dart';
 import 'package:activity_app/models/activity_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 import '../../global/global-variables.dart';
 
 Row detailHeader(BuildContext context, EventItem eventItem) {
@@ -12,26 +11,35 @@ Row detailHeader(BuildContext context, EventItem eventItem) {
     children: [
       SizedBox(
         width: W(context) * 0.6,
-        height: 90,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              eventItem!.name.toString(),
+              eventItem.name.toString(),
               style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 18,
                   color: Colors.black,
                   fontWeight: FontWeight.bold),
             ),
+            Padding(
+              padding: top20,
+              child: Text(
+                "${DateFormat("d MMMM", "tr_TR").format(DateTime.parse(eventItem.start.toString()))} \u00B7 "
+                "${DateFormat.Hm().format(DateTime.parse(eventItem.start.toString()).toLocal())}",
+                style: TextStyle(
+                    color: Colors.grey.shade600,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500),
+              ),
+            ),
             Text(
-              "${DateFormat("d MMMM", "tr_TR").format(DateTime.parse(eventItem.start.toString()))} \u00B7 "
-              "${DateFormat.Hm().format(DateTime.parse(eventItem.start.toString()).toLocal())}",
-              style: TextStyle(
-                  color: Colors.grey.shade600,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500),
-            )
+                "${eventItem.venue?.district?.name} / "
+                "${eventItem.venue?.city?.name}",
+                style: TextStyle(
+                    color: Colors.grey.shade600,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500))
           ],
         ),
       ),
@@ -46,10 +54,10 @@ Row detailHeader(BuildContext context, EventItem eventItem) {
               borderRadius: border20),
           child: Text(
               eventItem.isFree == true
-                  ? "Ücretsiz"
+                  ? AppStrings.free
                   : eventItem.isFree == false
-                      ? "Ücretli"
-                      : "Bilinmiyor",
+                      ? AppStrings.notFree
+                      : AppStrings.unknown,
               style: TextStyle(
                   fontSize: 16,
                   color: Colors.white,
