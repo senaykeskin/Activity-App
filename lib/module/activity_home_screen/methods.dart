@@ -9,7 +9,7 @@ import '../detail_screen/detail_screen.dart';
 Container eventButtonContainer(BuildContext context, EventItem event) {
   return Container(
     height: H(context) * 0.23,
-    margin: top10,
+    margin: top10 + bottom5,
     child: ElevatedButton(
       style: ElevatedButton.styleFrom(
           backgroundColor: Colors.white,

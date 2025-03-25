@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import '../../models/province_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -22,7 +21,6 @@ class ProvinceService {
             'API Hatası: ${response.statusCode} - ${response.body}');
       }
     } catch (e) {
-      inspect(e);
       return null;
     }
   }

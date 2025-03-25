@@ -1,15 +1,11 @@
-import 'package:activity_app/stores/category_store.dart';
 import 'package:flutter/material.dart';
-import 'package:activity_app/module/home/home.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'stores/province_store.dart';
+import 'module/splash_screen/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting('tr_TR', null);
-  await provinceStore.loadProvinces();
-  await categoryStore.loadCategories();
   runApp(MyApp());
 }
 
@@ -37,7 +33,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.light,
       theme: ThemeData.light().copyWith(),
-      home: Home(),
+      home: SplashScreen(),
     );
   }
 }

@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:rxdart/rxdart.dart';
 import '../models/province_model.dart';
 import '../module/filter_screen/provinces_service.dart';
@@ -16,13 +15,9 @@ class ProvinceStore {
   Future<void> loadProvinces() async {
     try {
       final provinces = await ProvinceService.getProvinces();
-      if (provinces == null || provinces.isEmpty) {
-        inspect("Şehir listesi boş döndü!");
-      }
+      if (provinces == null || provinces.isEmpty) {}
       provinceList.add(provinces!);
-      inspect("Şehirler başarıyla yüklendi: ${provinces.length} adet");
     } catch (e) {
-      inspect("Şehir yüklenirken hata oluştu: $e");
       provinceList.sink.add([]);
     }
   }

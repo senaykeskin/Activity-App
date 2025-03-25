@@ -10,6 +10,7 @@ final EdgeInsets vertical12 = EdgeInsets.symmetric(vertical: 12);
 final EdgeInsets vertical15 = EdgeInsets.symmetric(vertical: 15);
 final EdgeInsets zero = EdgeInsets.zero;
 final EdgeInsets all10 = EdgeInsets.all(10);
+final EdgeInsets all25 = EdgeInsets.all(25);
 final EdgeInsets all8 = EdgeInsets.all(8);
 final EdgeInsets top10 = EdgeInsets.only(top: 10);
 final EdgeInsets top20 = EdgeInsets.only(top: 20);

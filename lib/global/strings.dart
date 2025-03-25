@@ -18,4 +18,6 @@ class AppStrings {
   static const String free = "Ücretsiz";
   static const String notFree = "Ücretli";
   static const String unknown = "Bilinmiyor";
+  static const String favoriteEventNotFound = "Favori etkinlik yok.";
+
 }
